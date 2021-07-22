@@ -1,6 +1,6 @@
+from server import config
 from server import utils
 from server import cache
-import config
 import json
 
 class Transaction():

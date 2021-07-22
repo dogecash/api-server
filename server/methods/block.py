@@ -1,7 +1,7 @@
 from server.methods.transaction import Transaction
+from server import config
 from server import utils
 from server import cache
-import config
 
 class Block():
     @classmethod
@@ -12,8 +12,7 @@ class Block():
             txid = data["result"]
             data.pop("result")
             data["result"] = utils.make_request("getblock", [txid])["result"]
-            data["result"]["txcount"] = data["result"]["nTx"]
-            data["result"].pop("nTx")
+            data["result"]["txcount"] = len(list(data["result"]["tx"]))
 
         return data
 
@@ -22,8 +21,7 @@ class Block():
         data = utils.make_request("getblock", [bhash])
 
         if data["error"] is None:
-            data["result"]["txcount"] = data["result"]["nTx"]
-            data["result"].pop("nTx")
+            data["result"]["txcount"] = len(list(data["result"]["tx"]))
 
         return data
 
@@ -49,8 +47,7 @@ class Block():
 
                 data["result"] = block["result"]
                 data["result"]["nethash"] = int(nethash["result"])
-                data["result"]["txcount"] = data["result"]["nTx"]
-                data["result"].pop("nTx")
+                data["result"]["txcount"] = len(list(data["result"]["tx"]))
 
                 result.append(data["result"])
 

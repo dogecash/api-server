@@ -69,8 +69,7 @@ def block_by_hash(args, bhash):
 def block_header(bhash):
     data = utils.make_request("getblockheader", [bhash])
     if data["error"] is None:
-        data["result"]["txcount"] = data["result"]["nTx"]
-        data["result"].pop("nTx")
+        pass
 
     return jsonify(data)
 
@@ -145,7 +144,7 @@ def supply_plain():
 @blueprint.route("/price", methods=["GET"])
 def price():
     data = General().price()
-    return jsonify(utils.response(data["sugarchain"]))
+    return utils.response(data["dogecash"])
 
 def init(app):
     app.register_blueprint(blueprint, url_prefix="/")

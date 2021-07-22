@@ -1,7 +1,7 @@
+from server import config
 from server import utils
 from server import cache
 import requests
-import config
 
 class General():
     @classmethod
@@ -9,15 +9,10 @@ class General():
         data = utils.make_request("getblockchaininfo")
 
         if data["error"] is None:
-            data["result"]["supply"] = utils.supply(data["result"]["blocks"])["supply"]
+            data["result"]["supply"] = utils.make_request("getsupplyinfo")["result"]
             data["result"]["reward"] = utils.reward(data["result"]["blocks"])
             data["result"].pop("verificationprogress")
-            data["result"].pop("initialblockdownload")
-            data["result"].pop("pruned")
-            data["result"].pop("softforks")
-            data["result"].pop("bip9_softforks")
-            data["result"].pop("warnings")
-            data["result"].pop("size_on_disk")
+            data["result"].pop("initial_block_downloading")
 
             nethash = utils.make_request("getnetworkhashps", [120, data["result"]["blocks"]])
             if nethash["error"] is None:
@@ -28,10 +23,8 @@ class General():
     @classmethod
     @cache.memoize(timeout=config.cache)
     def supply(cls):
-        data = utils.make_request("getblockchaininfo")
-        height = data["result"]["blocks"]
-        result = utils.supply(height)
-        result["height"] = height
+        data = utils.make_request("getsupplyinfo")
+        result = data["result"]
 
         return result
 
@@ -66,7 +59,7 @@ class General():
         return data
 
     @classmethod
-    @cache.memoize(timeout=600)
     def price(cls):
-        link = "https://api.coingecko.com/api/v3/simple/price?ids=sugarchain&vs_currencies=usd,btc"
+        link = "https://api.coingecko.com/api/v3/simple/price?ids=dogecash&vs_currencies=usd,btc"
+        
         return requests.get(link).json()

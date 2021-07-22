@@ -1,5 +1,5 @@
+from server import config
 from server import cache
-import config
 
 class Esplora():
     @classmethod
@@ -12,7 +12,6 @@ class Esplora():
             "timestamp": result["time"],
             "tx_count": result["txcount"],
             "size": result["size"],
-            "weight": result["weight"],
             "merkle_root": result["merkleroot"],
             "previousblockhash": result["previousblockhash"],
             "nonce": result["nonce"],
@@ -88,7 +87,7 @@ class Esplora():
             status["block_hash"] = result["blockhash"]
             status["block_time"] = result["blocktime"]
 
-        weight = result["weight"] if "weight" in result else result["vsize"]
+        weight = result["weight"] if "weight" in result else result["size"]
 
         return {
             "txid": result["txid"],

@@ -4,8 +4,8 @@ from server.methods.address import Address
 from server.methods.general import General
 from server.methods.esplora import Esplora
 from server.methods.block import Block
+from server import config
 from server import stats
-import config
 
 blueprint = Blueprint("esplora", __name__)
 

@@ -1,12 +1,9 @@
 from flask_socketio import SocketIO
 from flask_caching import Cache
 from flask_cors import CORS
+from server import config
 from flask import Flask
-import eventlet
-import config
 import time
-
-eventlet.monkey_patch()
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
