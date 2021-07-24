@@ -35,9 +35,8 @@ class Block():
         result = []
         for block in range(height - (offset - 1), height + 1):
             data = utils.make_request("getblockhash", [block])
-            nethash = utils.make_request("getnetworkhashps", [120, block])
 
-            if data["error"] is None and nethash["error"] is None:
+            if data["error"] is None:
                 bhash = data["result"]
                 data.pop("result")
 
@@ -46,7 +45,6 @@ class Block():
                     continue
 
                 data["result"] = block["result"]
-                data["result"]["nethash"] = int(nethash["result"])
                 data["result"]["txcount"] = len(list(data["result"]["tx"]))
 
                 result.append(data["result"])
